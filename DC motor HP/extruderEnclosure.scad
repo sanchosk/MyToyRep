@@ -1,33 +1,33 @@
-$fn = 72;
+//$fn = 18;
 /* VARIABLES */
 {
-motorCoverLength = 8;
+motorCoverLength = 3;
 transmissionCoverLength = 9;
 transmissionWidth = 12.4;
 transmissionHeight = 10.6;
 mainBodyWidth = 21;
 mainBodyDepth = 21;
+bodyCornerRound = 0;
 motorDiameter = 12.8;
 motorFix = 10.2;
-gearCoverLength = 20;
+gearCoverLength = 25;
 gearHousingDiameter = 14;
 gearDiameter = 11;
 gearLength = 14;
 gearTeethLength = 7.8;
 gearBite = 0.5;
 filamentWidth = 1.75;
-bodyCornerRound = 2;
 bearingOD = 11.8;
 bearingID = 6;
 bearingHeight = 3.8;
 screwLength = 20;
-screwDia = 3;
+screwDia = 4;
 
 bearingMiddle = gearLength - gearTeethLength / 2;
 }
 /* ACTUAL PART */
 
-    bodyPart();
+    *bodyPart();
     *bodySupport();
     // bearing fillers
     *translate([
@@ -65,7 +65,7 @@ module motorEnclosure() {
     difference() {
         translate([0,0, motorCoverLength / 2])
             roundedCube(
-                [(mainBodyWidth + motorDiameter) / 2, (mainBodyDepth + motorFix) / 2, motorCoverLength],
+                [mainBodyWidth, mainBodyDepth, motorCoverLength],
                 bodyCornerRound
             );
         // motor sized cylinder
