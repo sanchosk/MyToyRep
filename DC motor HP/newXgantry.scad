@@ -1,4 +1,4 @@
-$fn = 120;
+$fn = 60;
 include <extruderEnclosure.scad>;
 
 gantryXhole = 32;
@@ -22,7 +22,7 @@ difference() {
         //sideHolder();
         topHolder();
         bottomHolder();
-        //color([0,0,1]) e3dCover();
+        color([0,0,1]) e3dCover();
     }
     translate([gantryXhole / 2, gantryYhole / 2]) cylinder(r = holeDia / 2 + tolerance, h = bodyDepth * 2, center = true);
     translate([-gantryXhole / 2, gantryYhole / 2]) cylinder(r = holeDia / 2 + tolerance, h = bodyDepth * 2, center = true);

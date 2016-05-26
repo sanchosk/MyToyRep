@@ -15,13 +15,13 @@ gearHousingDiameter = 14;
 gearDiameter = 11;
 gearLength = 14;
 gearTeethLength = 7.8;
-gearBite = 0.5;
+gearBite = 0.75;
 filamentWidth = 1.75;
 bearingOD = 11.8;
 bearingID = 6;
 bearingHeight = 3.8;
 screwLength = 20;
-screwDia = 4;
+screwDia = 3.4;
 
 bearingMiddle = gearLength - gearTeethLength / 2;
 }
@@ -148,11 +148,11 @@ module gearEnclosure() {
         translate([0, gearDiameter / 2  + bearingOD / 2 + filamentWidth * 3 / 4 - gearBite, gearCoverLength / 2])
         cylinder(r = screwDia / 2, h = gearCoverLength, center = true);
         // nut hole
-        translate([0, gearDiameter / 2  + bearingOD / 2 + filamentWidth * 3 / 4 - gearBite,  gearLength - gearTeethLength / 2 - bearingHeight - 2])
+        translate([0, gearDiameter / 2  + bearingOD / 2 + filamentWidth * 3 / 4 - gearBite,  gearLength - gearTeethLength / 2 - bearingHeight - 4])
         rotate([0,180,0])
         cylinder(r = screwDia + .2, h = gearCoverLength, center = false, $fn = 6);
         // screw head hole
-        translate([0, gearDiameter / 2  + bearingOD / 2 + filamentWidth * 3 / 4 - gearBite,  gearLength - gearTeethLength / 2 + bearingHeight + 2])
+        translate([0, gearDiameter / 2  + bearingOD / 2 + filamentWidth * 3 / 4 - gearBite,  gearLength - gearTeethLength / 2 + bearingHeight + 4])
         cylinder(r = screwDia + .2, h = gearCoverLength, center = false);
     }
 
