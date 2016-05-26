@@ -20,7 +20,7 @@ difference() {
     union() {
         roundedCube([gantryXhole + 4 * holeDia, gantryYhole + 4 * holeDia, bodyDepth], 4);
         //sideHolder();
-        topHolder();
+        //topHolder();
         bottomHolder();
         color([0,0,1]) e3dCover();
     }
