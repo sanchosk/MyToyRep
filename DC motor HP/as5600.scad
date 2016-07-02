@@ -1,6 +1,13 @@
-$fn = 180;
+$fn = 36;
 /* VARIABLES */
 {
+bearingDia = 9.8;
+screwHeadDia = 5.9;
+screwHeadDepth = 4;
+magnetDia = 6;
+magnetDepth = 0.8;
+tollerance = 0.3;
+
 motorCoverLength = 3;
 transmissionCoverLength = 9;
 transmissionWidth = 12.4;
@@ -30,18 +37,19 @@ bearingMiddle = gearLength - gearTeethLength / 2;
 }
 /* ACTUAL PART */
 
-// encoderWheel();
-    *bodyPart();
+    *magnetHolder();
+    *encoderWheel();
+    bodyPart();
     *bodySupport();
     // bearing fillers
-    *translate([
+    translate([
         0, 
         gearDiameter / 2  + bearingOD / 2 + filamentWidth / 2 - gearBite,
         motorCoverLength + transmissionCoverLength + gearLength - gearTeethLength / 2
     ]) {
         translate([0, 0, -bearingHeight / 2])
-            bearingFill();
-        translate([0, 0, bearingHeight / 2]) rotate([0, 180, 0])
+            bearingFillFull();
+        *translate([0, 0, bearingHeight / 2]) rotate([0, 180, 0])
             bearingFill();
     }
     
@@ -60,7 +68,7 @@ module bodyPart() {
     translate([0, 0, motorCoverLength])
         transmissionEnclosure();
     translate([0, 0, motorCoverLength + transmissionCoverLength])
-        gearEnclosure();
+        !gearEnclosure();
 }
 module motorEnclosure() {
     difference() {
@@ -100,12 +108,16 @@ module motorEnclosure() {
 }
 module transmissionEnclosure() {
     difference() {
-        translate([0,0, transmissionCoverLength / 2])
-            roundedCube(
-                [mainBodyWidth,
-                mainBodyDepth,
-                transmissionCoverLength],
-                bodyCornerRound);
+        union() {
+            translate([0,0, transmissionCoverLength / 2])
+                roundedCube(
+                    [mainBodyWidth,
+                    mainBodyDepth,
+                    transmissionCoverLength],
+                    bodyCornerRound);
+            translate([0, mainBodyDepth / 2, 0]) 
+                cylinder(r = mainBodyWidth/ 2, h = transmissionCoverLength, center = false);
+        }
         translate([0,0, transmissionCoverLength / 2])
             color([1,1,1])
                 cube([transmissionWidth,transmissionHeight, transmissionCoverLength + 1], center = true);    
@@ -113,6 +125,8 @@ module transmissionEnclosure() {
             cylinder(r = screwDia + .2, h = transmissionCoverLength + 1, center = true, $fn = 6);
 
     }
+
+
 }
 
 
@@ -257,6 +271,18 @@ module bearingFill() {
         cylinder(r = screwDia / 2 + .2, h = bearingHeight * 2, center = true);
     }
 }
+module bearingFillFull() {
+    color([1, 0, 0])
+    translate([0, 0, -bearingHeight * .25])
+    difference() {
+        union() {
+        translate([0,0,bearingHeight * .45])
+            cylinder(r = bearingID / 2, h = bearingHeight, center = true);
+        cylinder(r = bearingID / 2 + 1, h = bearingHeight * .5, center = true);
+        }
+        cylinder(r = screwDia / 2 + .2, h = bearingHeight * 2, center = true);
+    }
+}
 module bodySupport() {
     translate([
             0, 
@@ -300,6 +326,22 @@ module encoder() {
     encoderShaft();
     encoderWheel();
 }
+
+module magnetHolder() {
+    difference() {
+        cylinder(center = false, r = bearingDia / 2 - tollerance, h = screwHeadDepth + tollerance);
+        translate([0, 0, -tollerance])
+            cylinder(center = false, r = screwHeadDia / 2 + tollerance, h = screwHeadDepth * 2);
+    }
+
+    translate([0, 0, screwHeadDepth + tollerance])
+        difference() {
+            cylinder(center = false, r = bearingDia / 2 - tollerance, h = screwHeadDepth + tollerance);
+            translate([0, 0, screwHeadDepth + tollerance  - magnetDepth])
+                cylinder(center = false, r = magnetDia / 2 + tollerance, h = magnetDepth + tollerance);
+        }
+}
+
 // end of modules
 
 
